@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { BillService } from "../services/bill.service";
 import { PaymentService } from "../services/payment.service";
 
-//import { BillSidebarComponent } from "../bill-sidebar/bill-sidebar.component";
+import { SidebarComponent } from "./sidebar/sidebar.component";
 import { BillTools } from './bill-tools';
 
 @Component({

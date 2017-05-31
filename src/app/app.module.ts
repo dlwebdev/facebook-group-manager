@@ -23,6 +23,7 @@ import { ManageComponent } from './bills/manage/manage.component';
 import { PaymentHistoryComponent } from './bills/payment-history/payment-history.component';
 import { PayComponent } from './bills/pay/pay.component';
 import { MakePaymentComponent } from './bills/pay/make-payment/make-payment.component';
+import { SidebarComponent } from './bills/sidebar/sidebar.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
@@ -50,7 +51,8 @@ const routes: Routes = [
     ManageComponent,
     PaymentHistoryComponent,
     PayComponent,
-    MakePaymentComponent
+    MakePaymentComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
