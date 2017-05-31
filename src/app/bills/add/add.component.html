@@ -1,3 +1,45 @@
-<p>
-  add works!
-</p>
+<div class="add-bills-container">
+  <h1>Creating Bill</h1>
+
+  <!--<pre>{{bill | json}}</pre>-->
+
+  <div *ngIf="errorMessage" class="btn-danger">
+    {{ errorMessage }}
+  </div>
+
+  <form id="createBill" class="well well-lg smaller-text-mobile">
+    <div class="form-group row">
+      <div class="col-md-12">
+        <label for="billName">Name:</label>
+        <input type="text" [(ngModel)]="bill.name" [ngModelOptions]="{standalone: true}" class="form-control" id="billName" placeholder="Bill Name">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-12">
+        <label for="billDateDue">Day Of Month This Payment is Due:</label>
+        <input type="number" [(ngModel)]="bill.datedue" [ngModelOptions]="{standalone: true}" class="form-control" id="billDateDue" (change)="paymentDueDateChanged()" placeholder="Day of Month Due">
+      </div>
+    </div>
+
+    <div id="totalAmount" class="form-group row">
+      <div class="col-xs-11 col-sm-6">
+        <label for="billAmount">What Is The Payment Amount:</label>
+        <div class="input-group">
+          <div class="input-group-addon">$</div>
+          <input type="number" [(ngModel)]="bill.amount" [ngModelOptions]="{standalone: true}" class="form-control" id="billAmount" placeholder="Amount">
+          <div class="input-group-addon">.00</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-xs-12">
+        <button type="button" [disabled]="errorMessage || !bill.name || !bill.amount || !bill.amount" (click)="saveBill()" class="btn btn-primary">Save</button>
+        <a [routerLink]="['/bills/manage']" class="btn btn-default">Cancel</a>
+      </div>
+    </div>
+
+  </form>
+</div>

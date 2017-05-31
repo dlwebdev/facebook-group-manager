@@ -1,0 +1,11 @@
+#createBill {
+  border: 2px solid black;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1 {
+  text-align: center;
+  color: #337ab7;
+}

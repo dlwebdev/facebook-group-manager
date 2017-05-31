@@ -3,7 +3,9 @@ const router = express.Router();
 
 const Bill = require('../models/bill');
 
-router.post('/bills/', function(req, res) {
+// /api/bills routes
+
+router.post('/', function(req, res) {
   // Create a new bill
 
   // Tells api what is required for a new Bill
@@ -25,7 +27,7 @@ router.post('/bills/', function(req, res) {
 });
 
 // Route for deleting Bills from the bills database
-router.get('/bills/', function(req, res) {
+router.get('/', function(req, res) {
   const user_id = req.user._id;
 
   Bill.find({'user_id': user_id}, function (err, bills) {
@@ -35,7 +37,7 @@ router.get('/bills/', function(req, res) {
 });
 
 // Route for getting Bills from the bills database
-router.get('/bills/:id', function(req, res) {
+router.get('/:id', function(req, res) {
   const id = req.params.id;
 
   Bill.findOne({'_id':id},function(err, bill) {
@@ -45,7 +47,7 @@ router.get('/bills/:id', function(req, res) {
 });
 
 // Route for updating Bills that are in the bills database
-router.put('/bills/:id', function(req, res) {
+router.put('/:id', function(req, res) {
   let bill = req.body;
   const id = bill._id;
 
@@ -60,7 +62,7 @@ router.put('/bills/:id', function(req, res) {
 });
 
 // Route for deleting Bills from the bills database
-router.delete('/bills/:id', function(req, res) {
+router.delete('/:id', function(req, res) {
   const id = req.params.id;
 
   console.log("Will remove bill with id of: ", id);
