@@ -1,0 +1,43 @@
+.pad-top {
+  margin-top: 35px;
+}
+
+.list-group-item:hover {
+  background: #9d9d9d;
+  cursor: pointer;
+}
+
+.btn-block {
+  margin-left: -15px;
+  width: 103.5%;
+}
+
+.container-fluid, .sidebar-row {
+  height: 100%;
+  width: 100%;
+}
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.img-responsive {
+  display: inline;
+}
+
+.placeholder a {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.placeholder a:hover {
+  background: #e3e3e3;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+h1 {
+  color: #337ab7;
+  font-weight: bold;
+}
