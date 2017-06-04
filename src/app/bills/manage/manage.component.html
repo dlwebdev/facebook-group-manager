@@ -1,30 +1,46 @@
 <div class="container-fluid">
-  <div class="row pad-top sidebar-row">
+  <div class="row sidebar-row">
 
-    <div class="col-xs-3 col-md-2 sidebar">
+    <div class="bill-sidebar">
       <bill-sidebar></bill-sidebar>
     </div>
 
-    <div class="col-xs-8 col-xs-offset-4 col-md-9 col-md-offset-3 main">
+    <div class="bill-main-content">
 
       <h1>Bills</h1>
 
-      <a type="button" [routerLink]="['/bills/add']" class="btn btn-primary btn-lg btn-block">Add a Bill</a>
+      <a type="button" [routerLink]="['/bills/add']" class="btn btn-primary btn-lg btn-block">Create Bill</a>
 
       <div *ngIf="isLoading" class="loading-container">
         <img src="/assets/images/gears.gif" alt="Loading bills">
       </div>
 
       <div *ngIf="!isLoading" class="list-group bill-list">
-        <div *ngFor="let bill of bills" (click)="editBill(bill._id)" class="list-group-item row">
-          <h4 class="list-group-item-heading">{{ bill.name }}</h4>
-          <p class="list-group-item-text">
-            Amount Due: {{ bill.amount | currency:'USD':true }}
-            <br>
-            Due this month on: {{ bill.customDueDate | date: 'MMM dd, yyyy' }}
-          </p>
-        </div>
+
+        <ul class="cards">
+          <li *ngFor="let bill of bills" class="cards__item" (click)="editBill(bill._id)" >
+            <div class="card">
+
+              <div *ngIf="bill.image" class="card__image" [style.background-image]="'url(' + bill.image + ')'"></div>
+              <div *ngIf="!bill.image" class="card__image card__image--fence"></div>
+
+              <div class="card__content">
+                <div class="card__title">{{ bill.name }}</div>
+                <p class="card__text">
+                  Amount Due: {{ bill.amount | currency:'USD':true }}
+                  <br>
+                  Due on: {{ bill.customDueDate | date: 'MMM dd, yyyy' }}
+                </p>
+                <button class="btn btn--block card__btn">Manage</button>
+              </div>
+
+            </div>
+          </li>
+
+        </ul>
+
       </div>
+
 
     </div>
   </div>

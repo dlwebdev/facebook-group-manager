@@ -9,6 +9,7 @@ const Schema = mongoose.Schema;
 const billSchema = new Schema({
   user_id: String,
   name: String,
+  image: String,
   datedue: Number,
   amount: Number,
   datepaid: Date,
