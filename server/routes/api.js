@@ -25,8 +25,10 @@ router.get('/logout', function(req, res) {
 
 const users = require('./users');
 const bills = require('./bills');
+const payments = require('./payments');
 
 router.use('/users', users);
 router.use('/bills', bills);
+router.use('/payments', payments);
 
 module.exports = router;

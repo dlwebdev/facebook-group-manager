@@ -1,3 +1,56 @@
-<p>
-  pay works!
-</p>
+<div class="container-fluid">
+  <div class="row sidebar-row">
+
+    <div class="bill-sidebar">
+      <bill-sidebar></bill-sidebar>
+    </div>
+
+    <div class="bill-main-content">
+
+      <div *ngIf="isLoading" class="loading-container">
+        <img src="/assets/images/gears.gif" alt="Loading bills">
+      </div>
+
+      <div *ngIf="!isLoading">
+
+        <div *ngIf="!hasBills" class="no-bills-image-div text-center">
+          <img src="/assets/images/clipart-huppy1.png" alt="No Bills" />
+          <br>
+          <h2 class="text-important">Good job, all bills paid!</h2>
+        </div>
+
+        <div *ngIf="hasBills" class="list-group bill-list">
+          <h1>Pay a Bill</h1>
+
+          <p>Select a bill to pay it</p>
+
+          <hr>
+
+          <ul class="cards">
+            <li *ngFor="let bill of billsUnpaid" class="cards__item" (click)="payBill(bill._id)" >
+              <div class="card">
+
+                <div *ngIf="bill.image" class="card__image" [style.background-image]="'url(' + bill.image + ')'"></div>
+                <div *ngIf="!bill.image" class="card__image card__image--fence"></div>
+
+                <div class="card__content">
+                  <div class="card__title">{{ bill.name }}</div>
+                  <p class="card__text">
+                    Amount Due: {{ bill.amount | currency:'USD':true }}
+                    <br>
+                    Due on: {{ bill.customDueDate | date: 'MMM dd, yyyy' }}
+                  </p>
+                  <button class="btn btn--block card__btn">Pay</button>
+                </div>
+
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Bill = require('../models/bill');
+const Payment = require('../models/payment');
 
 // /api/bills routes
 
@@ -69,6 +70,35 @@ router.delete('/:id', function(req, res) {
 
   Bill.remove({'_id': id},function(result) {
     res.json(result);
+  });
+
+});
+
+
+router.post('/payment', function(req, res) {
+  // Create a new payment
+  // Tells api what is required for a new Payment
+  let payment = new Payment({
+    user_id: req.user._id,
+    bill_id: req.body.bill_id,
+    bill_name: req.body.bill_name,
+    payment_date: moment().format('MM-DD-YYYY')
+  });
+
+  // Route for saving Payments to the payments database
+  payment.save(function (err, payment) {
+    if (err) {
+      console.log('error saving payment: ', err);
+    }
+
+    // REmove notifications for this bill id
+
+    Notification.remove({'bill_name': req.body.bill_name},function(result) {
+      // Removed notification
+    });
+
+
+    res.status(201).json(payment);
   });
 
 });

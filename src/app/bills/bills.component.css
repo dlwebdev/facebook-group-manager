@@ -46,7 +46,7 @@ h1 {
   width: 15%;
   float:left;
   background: #353434;
-  height: 100%;
+  height: 120%;
   color: #9d9d9d;
   font-size: 16px;
   font-family: Robotica;
@@ -60,7 +60,13 @@ h1 {
   background: #222;
   color: #FFF;
 }
+
 .bill-main-content {
-  width: auto;
+  width: 83%;
   float: left;
+  margin-left: 1%;
+}
+
+.bill-main-content .row {
+  margin: 0;
 }

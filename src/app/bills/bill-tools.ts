@@ -2,6 +2,8 @@ export class BillTools {
   getUnpaidBillsForMonth(bills, paymentsMade) {
     let unpaid = [];
 
+    console.log("Getting unpaid bills..");
+
     // need all bills that do not have a payment
     for(let i = 0; i < bills.length; i++ ) {
       let thisBillIsPaid = this.isBillInPaymentsMadeForMonth(bills[i]._id, paymentsMade);
