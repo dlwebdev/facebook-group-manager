@@ -18,13 +18,15 @@ import { PayComponent } from './bills/pay/pay.component';
 import { MakePaymentComponent } from './bills/pay/make-payment/make-payment.component';
 import { SidebarComponent } from './bills/sidebar/sidebar.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { SettingsComponent } from './settings/settings.component';
+import { BillsComponent } from './bills/bills.component';
 
 import { AuthService } from './services/auth.service';
-import { BillsComponent } from './bills/bills.component';
 import { UserAlertService } from "./services/user-alert.service";
 import { BillService } from "./services/bill.service";
 import { NotificationService } from "./services/notification.service";
 import { PaymentService } from "./services/payment.service";
+import { UserService } from "./services/user.service";
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
@@ -36,6 +38,8 @@ const routes: Routes = [
   { path: 'bills/add', component: AddComponent, canActivate: [AuthGuard] },
   { path: 'bills/edit/:id', component: EditComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  { path: 'notifications', component: NotificationsComponent},
+  { path: 'settings', component: SettingsComponent},
   { path: 'login', component: LoginComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
@@ -54,7 +58,8 @@ const routes: Routes = [
     PayComponent,
     MakePaymentComponent,
     SidebarComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +67,7 @@ const routes: Routes = [
     HttpModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [AuthService, BillService, PaymentService, UserAlertService, AuthGuard, NotificationService],
+  providers: [AuthService, BillService, PaymentService, UserAlertService, AuthGuard, NotificationService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

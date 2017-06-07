@@ -110,6 +110,7 @@ app.get('/auth/twitter/callback',
   function(req, res) {
     // Successful authentication, redirect home.
 
+    console.log("Checking for notifications...");
     // Do notification check
     NotificationChecker.checkForNotifications(req);
 

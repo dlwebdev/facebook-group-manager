@@ -1,0 +1,14 @@
+<div class="container">
+  <h1>Bill Alert Settings</h1>
+  <p>Set up when you would like to recieve alerts reminding you of due dates.</p>
+
+  <form>
+    <div class="form-group">
+      <label for="daysBeforeNotice">Number of days before:</label>
+      <input id="daysBeforeNotice" type="text" [(ngModel)]="daysBeforeNotice" [ngModelOptions]="{standalone: true}" class="form-control">
+    </div>
+
+    <button type="button" (click)="saveSetting()" class="btn btn-primary">Save</button>
+    <a [routerLink]="['/home']" class="btn btn-default">Cancel</a>
+  </form>
+</div>

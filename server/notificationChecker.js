@@ -8,8 +8,10 @@ let NotificationChecker = new Object();
 
 NotificationChecker.isBillInPaymentsMadeForMonth = function (id, paymentsMadeArray) {
   // return true if the bill id exists in the current bills paid array
+
   for(let i = 0; i < paymentsMadeArray.length; i++ ) {
     /// if this payment made bill id matches the id we are checking for, return true (it has been paid)
+    console.log("Is this bill id in the payments made for the month: ")
     if(paymentsMadeArray[i].bill_id == id) return true;
   }
   // Return false if this payment was not the match for the bill being searched for
@@ -38,13 +40,13 @@ NotificationChecker.checkForNotifications = function (req) {
 
       // need all bills that do not have a payment
       for (let bill of bills) {
-        //console.log("Bill: ", bill);
         let thisBillIsPaid = NotificationChecker.isBillInPaymentsMadeForMonth(bill._id, payments);
         let dayOfMonthBillDue = bill.datedue;
         // if a false was returned for this bill, it has not been paid yet. Only push on bill if it is false (has not been paid)
 
         if(!thisBillIsPaid) {
           // push bill copy onto temporary array that will get returned
+
           // if the current day of month is within the days they want an alert, push onto unpaid
           if((currentDayOfMonth + currentUserDaySetting) > dayOfMonthBillDue) {
 
