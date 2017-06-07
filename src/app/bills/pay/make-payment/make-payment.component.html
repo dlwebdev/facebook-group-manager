@@ -1,3 +1,31 @@
-<p>
-  make-payment works!
-</p>
+<div class="make-payment-container">
+  <h1>Payment Details</h1>
+  <p>Record details of a payment you've made for this bill.</p>
+
+  <form class="well well-lg">
+
+    <div class="form-group row">
+      <h2 class="form-group-item-heading">{{ bill.name }}</h2>
+
+      <p class="form-group-item-text">
+        Due On: {{ bill.datedue }}
+        <br>
+        Amount due: {{ bill.amount | currency:'USD':true }}
+      </p>
+
+      <div class="form-group">
+        <div class="btn-group" role="group" aria-label="Payment Status">
+          <button [ngClass]="{'is-active btn-danger': !isPaid }" (click)="toggleStatus('Unpaid')" type="button" class="btn btn-lg btn-block">Unpaid</button>
+          <button [ngClass]="{'is-active btn-success': isPaid }" (click)="toggleStatus('Paid')" type="button" class="btn btn-lg btn-block">Paid</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <div class="form-group">
+    <button type="button" (click)="saveBill()" class="btn btn-primary">Submit</button>
+    <a [routerLink]="['/bills/pay']" class="btn btn-default">Cancel</a>
+  </div>
+
+</div>
