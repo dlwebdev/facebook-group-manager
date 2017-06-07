@@ -18,6 +18,7 @@ const api = require('./server/routes/api');
 
 // Get User model so passport knows what a 'User' is
 const User = require('./server/models/user');
+const NotificationChecker = require('./server/notificationChecker');
 
 // Tell passport how to write a user
 passport.serializeUser(function(user, cb) {
@@ -110,7 +111,7 @@ app.get('/auth/twitter/callback',
     // Successful authentication, redirect home.
 
     // Do notification check
-    //NotificationChecker.checkForNotifications(req);
+    NotificationChecker.checkForNotifications(req);
 
     res.redirect('/dashboard');
   });

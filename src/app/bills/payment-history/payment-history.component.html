@@ -1,3 +1,26 @@
-<p>
-  payment-history works!
-</p>
+<div class="container-fluid">
+  <div class="row pad-top sidebar-row">
+
+    <div class="bill-sidebar">
+      <bill-sidebar></bill-sidebar>
+    </div>
+
+    <div class="bill-main-content">
+
+      <h1>Payment History</h1>
+
+      <p>Here is a list of all the payments you have made.</p>
+
+      <div class="list-group bill-list">
+        <div *ngFor="let payment of payments" class="list-group-item row">
+          <h3 class="list-group-item-heading">{{ payment.bill_name }}</h3>
+          <p class="list-group-item-text">
+            Paid on: {{ payment.payment_date | date: 'MMM dd, yyyy' }}
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

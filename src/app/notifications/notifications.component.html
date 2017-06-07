@@ -1,0 +1,11 @@
+<div class="container-fluid">
+  <h1>Notifications</h1>
+
+  <ul class="list-group">
+    <li [ngClass]="{'list-group-item-danger': !n.read }" *ngFor="let n of notifications; let i = index;" (click)="markAsRead(i)" class="list-group-item">
+      <span *ngIf="!n.read" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ n.bill_name }}
+      <span class="pull-right">{{ n.datedue | date: 'MMM dd, yyyy'}}</span>
+    </li>
+  </ul>
+
+</div>
