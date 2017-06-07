@@ -54,6 +54,8 @@
               Amount Due: {{ unpaidBill.amount | currency:'USD':true }}
               <br>
               Due on: {{ unpaidBill.customDueDate | date: 'MMM dd, yyyy' }}
+              <br>
+              Last paid on: {{ unpaidBill.datepaid | date: 'MMM dd, yyyy' }}
             </p>
 
           </div>

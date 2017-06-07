@@ -39,6 +39,8 @@
                     Amount Due: {{ bill.amount | currency:'USD':true }}
                     <br>
                     Due on: {{ bill.customDueDate | date: 'MMM dd, yyyy' }}
+                    <br>
+                    Last paid on: {{ bill.datepaid | date: 'MMM dd, yyyy' }}
                   </p>
                   <button class="btn btn--block card__btn">Pay</button>
                 </div>

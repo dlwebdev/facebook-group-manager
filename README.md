@@ -1,6 +1,6 @@
-# Untitled1
+# Angular Bill Management System (Angular 4.0.0)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.4.
+This project was developed using the [Angular CLI](https://github.com/angular/angular-cli) version 1.0.4.
 
 ## Development server
 

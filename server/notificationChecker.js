@@ -70,8 +70,8 @@ NotificationChecker.checkForNotifications = function (req) {
             });
           }
         }
-      }
-    })
+      } // end for bills block
+    }) // End payment.find method
   })
 
 };
