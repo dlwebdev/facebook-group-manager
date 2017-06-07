@@ -29,9 +29,7 @@ NotificationChecker.checkForNotifications = function (req) {
     // array is 'year', 'month', 'day', etc
     let startOfMonth = moment([moment().year(), moment().month()]).add(0,"month");
     let endOfMonth = moment(startOfMonth).endOf('month');
-
     let currentDayOfMonth = moment().date();
-
     let currentUserDaySetting = req.user.daysBeforeNotice;
 
     Payment.find({user_id: req.user._id, payment_date: {$gte: startOfMonth, $lt: endOfMonth}}, function (err, payments) {
@@ -46,7 +44,6 @@ NotificationChecker.checkForNotifications = function (req) {
 
         if(!thisBillIsPaid) {
           // push bill copy onto temporary array that will get returned
-
           // if the current day of month is within the days they want an alert, push onto unpaid
           if((currentDayOfMonth + currentUserDaySetting) > dayOfMonthBillDue) {
 
@@ -56,7 +53,6 @@ NotificationChecker.checkForNotifications = function (req) {
               read: false,
               datedue: new Date(moment().year(), moment().month(), dayOfMonthBillDue)
             });
-
 
             Notification.find({bill_name: bill.name}, function (err, notifications) {
               if (notifications.length){
