@@ -30,12 +30,10 @@ export class AppComponent implements AfterViewInit {
   OnNotifyAllRead(allRead: boolean) {
     console.log("onAllRead FIRED! allRead: ", allRead);
 
+    this.hasNotifications = false;
+
     // if all notifications are not read, then this.hasNotifications = true;
-    if(allRead) {
-      this.hasNotifications = false;
-    } else {
-      this.hasNotifications = true;
-    }
+    if(!allRead) this.hasNotifications = true;
   }
 
   // ngAfterViewInit is fired after the page has completely loaded. It's a built
