@@ -19,7 +19,7 @@ export class AppComponent implements AfterViewInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
     private notificationService: NotificationService
   ) { }
 
