@@ -33,7 +33,7 @@ passport.deserializeUser(function(obj, cb) {
 passport.use(new TwitterStrategy({
     consumerKey: 'GxwxeStKsYqKjhpzYS7Ag8X25',
     consumerSecret: 'AKt7uqDgHjDpMpQwbwWbDwQNgzqTnPTu1EdQUrpBTqQsm2ezF7',
-    callbackURL: "http://localhost:3000/auth/twitter/callback"
+    callbackURL: "https://bill-manager.herokuapp.com/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, cb) {
     User.findOne({ twitterId: profile.id }, function (err, user) {
