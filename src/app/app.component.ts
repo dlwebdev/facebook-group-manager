@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, EventEmitter, Input, Output } from '@
 import { AuthService } from "./services/auth.service";
 import { Router } from '@angular/router';
 
-//import { NotificationService } from "./notification.service";
+import { NotificationService } from "./services/notification.service";
 
 @Component({
   selector: 'app-root',
@@ -20,7 +20,7 @@ export class AppComponent implements AfterViewInit {
   constructor(
     private router: Router,
     private authService: AuthService
-    //private notificationService: NotificationService
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -82,7 +82,7 @@ export class AppComponent implements AfterViewInit {
 
   checkForNotifications() {
     console.log("Checking for notifications...");
-    /*
+
     this.notificationService.getUnreadNotifications().subscribe(notifications => {
       console.log("notifications returned: ", notifications);
       this.notifications = notifications;
@@ -92,7 +92,7 @@ export class AppComponent implements AfterViewInit {
       }
 
     });
-    */
+
   }
 
 }
