@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule, Routes } from "@angular/router";
+import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './AuthGuard';
 
@@ -20,16 +20,19 @@ import { SidebarComponent } from './bills/sidebar/sidebar.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { SettingsComponent } from './settings/settings.component';
 import { BillsComponent } from './bills/bills.component';
+import { GroupsComponent } from './groups/groups.component';
 
 import { AuthService } from './services/auth.service';
-import { UserAlertService } from "./services/user-alert.service";
-import { BillService } from "./services/bill.service";
-import { NotificationService } from "./services/notification.service";
-import { PaymentService } from "./services/payment.service";
-import { UserService } from "./services/user.service";
+import { UserAlertService } from './services/user-alert.service';
+import { BillService } from './services/bill.service';
+import { NotificationService } from './services/notification.service';
+import { PaymentService } from './services/payment.service';
+import { UserService } from './services/user.service';
+import { GroupService } from './services/group.service';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
+  { path: 'groups', component: GroupsComponent},
   { path: 'bills', component: BillsComponent, canActivate: [AuthGuard]},
   { path: 'bills/pay/make-payment/:id', component: MakePaymentComponent, canActivate: [AuthGuard] },
   { path: 'bills/pay', component: PayComponent, canActivate: [AuthGuard] },
@@ -59,7 +62,8 @@ const routes: Routes = [
     MakePaymentComponent,
     SidebarComponent,
     NotificationsComponent,
-    SettingsComponent
+    SettingsComponent,
+    GroupsComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +71,7 @@ const routes: Routes = [
     HttpModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [AuthService, BillService, PaymentService, UserAlertService, AuthGuard, NotificationService, UserService],
+  providers: [AuthService, GroupService, BillService, PaymentService, UserAlertService, AuthGuard, NotificationService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

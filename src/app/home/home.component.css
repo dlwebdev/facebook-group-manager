@@ -39,7 +39,7 @@ body {
 }
 
 .home-wrapper {
-  background-image: url(/assets/images/skeleton-poker.jpg);
+  /*background-image: url(/assets/images/skeleton-poker.jpg);*/
   opacity: 1;
 }
 
