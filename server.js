@@ -6,6 +6,8 @@ const http = require('http');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
+const graph = require('fbgraph');
+
 const session = require('express-session');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -91,6 +93,17 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
+const conf = {
+  client_id:      '329051680857512',
+  client_secret:  '0aadceb2c7e3dbb463731d5f140395f0',
+  scope:          'email, user_about_me, user_birthday, user_location, publish_actions',
+  access_code: '',
+  code:           ''
+  // You have to set http://localhost:3000/ as your website
+  // using Settings -> Add platform -> Website
+  , redirect_uri:   'http://localhost:3000/fb-auth'
+};
+
 // initialize the session
 app.use(passport.initialize());
 // start the session
@@ -99,8 +112,103 @@ app.use(passport.session());
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
 
+//let fb = new FB.
+
 // Set our api routes
 app.use('/api', api);
+
+const request = require('request');
+
+app.get('/fb-api/groups', function(req, res) {
+  graph.setAccessToken(conf.access_code);
+
+  var params = { };
+
+  graph.get("360852310642785/members", params,  function(err, resp) {
+    console.log(resp); // { picture: "http://profile.ak.fbcdn.net/..." }
+    res.json(resp);
+  });
+});
+
+
+app.get('/test', function(req, res) {
+  // you need permission for most of these fields
+  const userFieldSet = 'id, name, about, email, accounts, link, is_verified, significant_other, relationship_status, website, picture, photos, feed';
+
+  const options = {
+    method: 'GET',
+    uri: 'https://graph.facebook.com/v2.9/360852310642785/members',
+    qs: {
+      access_token: conf.access_code,
+      fields: userFieldSet
+    }
+  };
+
+  request.get(options, function(err,response,body) {
+    if (err) console.log("Error: ", err);
+    else console.log(body);
+
+    res.json(JSON.parse(body));
+  });
+
+});
+
+app.get('/fbapi', function(req, res) {
+
+  graph.setAccessToken(conf.access_code);
+
+  var searchOptions = {
+    q: "4",
+    type: "user",
+    limit: 20
+  };
+  graph.search(searchOptions,function(err, res) {
+    if(err) console.log(err);
+    else console.log("User Test: ", res);
+  });
+
+});
+
+
+app.get('/fb-auth', function(req, res) {
+
+  // we don't have a code yet
+  // so we'll redirect to the oauth dialog
+  if (!req.query.code) {
+    console.log("Performing oauth for some user right now.");
+
+    const authUrl = graph.getOauthUrl({
+      "client_id":     conf.client_id,
+      "redirect_uri":  conf.redirect_uri,
+      "scope":         conf.scope
+    });
+
+    if (!req.query.error) { //checks whether a user denied the app facebook login/permissions
+      res.redirect(authUrl);
+    } else {  //req.query.error == 'access_denied'
+      res.send('access denied');
+    }
+  }
+  // If this branch executes user is already being redirected back with
+  // code (whatever that is)
+  else {
+    console.log("Oauth successful, the code (whatever it is) is: ", req.query.code);
+    // code is set
+    // we'll send that and get the access token
+    graph.authorize({
+      "client_id":      conf.client_id,
+      "redirect_uri":   conf.redirect_uri,
+      "client_secret":  conf.client_secret,
+      "code":           req.query.code
+    }, function (err, facebookRes) {
+      graph.setAccessToken(facebookRes.access_token);
+      conf.access_code = facebookRes.access_token;
+      console.log("Access code set to: ", conf.access_code);
+      res.redirect('/home');
+    });
+  }
+});
+
 
 app.get('/auth/twitter',
   passport.authenticate('twitter'));

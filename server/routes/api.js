@@ -23,7 +23,7 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-const groups = require('./groups');
+//const groups = require('./groups');
 
 const users = require('./users');
 const bills = require('./bills');
@@ -31,7 +31,7 @@ const payments = require('./payments');
 const notifications = require('./notifications');
 
 router.use('/user', users);
-router.use('/groups', groups);
+//router.use('/groups', groups);
 router.use('/bills', bills);
 router.use('/payments', payments);
 router.use('/notifications', notifications);

@@ -12,8 +12,10 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/cli": "1.0.4",
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
+    "@angular/compiler-cli": "^4.0.0",
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0",
     "@angular/http": "^4.0.0",
@@ -26,6 +28,8 @@
     "core-js": "^2.4.1",
     "express": "^4.15.3",
     "express-session": "^1.15.3",
+    "fb": "^2.0.0",
+    "fbgraph": "^1.4.1",
     "http": "0.0.0",
     "moment": "^2.18.1",
     "mongoose": "^4.10.3",
@@ -33,10 +37,9 @@
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",
     "path": "^0.12.7",
+    "request": "^2.81.0",
     "rxjs": "^5.1.0",
-    "zone.js": "^0.8.4",
-    "@angular/compiler-cli": "^4.0.0",
-    "@angular/cli": "1.0.4"
+    "zone.js": "^0.8.4"
   },
   "devDependencies": {
     "@types/jasmine": "2.5.38",
