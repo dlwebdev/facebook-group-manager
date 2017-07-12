@@ -22,6 +22,12 @@ export class AuthService {
       .catch(this.handleError);
   }
 
+  facebookApiLogin(): Observable<Object[]> {
+    return this.http.get('/fb-auth')
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
   /**
    * Handle HTTP error
    */

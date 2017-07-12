@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 
 // User model
 const userSchema = new Schema({
-  twitterId: String,
+  facebookId: String,
   username: String,
   daysBeforeNotice: Number
 });

@@ -18,10 +18,13 @@ export class GroupsComponent implements OnInit {
     this.isLoading = true;
 
     // Retrieve posts from the API
+    const gid = '360852310642785';
+
+    // this.groupService.getGroupMembers(gid).subscribe(groups => {
     this.groupService.getAllGroups().subscribe(groups => {
       this.groups = groups;
 
-      console.log('API will get groups from facebook api endpoint...');
+      console.log('Groups', groups);
       /*
       this.paymentService.getPaymentsForCurrentMonth().subscribe(payments => {
         this.billsUnpaid = this.billTools.getUnpaidBillsForMonth(this.bills, payments);

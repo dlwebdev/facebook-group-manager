@@ -62,34 +62,14 @@ export class AppComponent implements AfterViewInit {
 
   checkIfLoggedIn() {
 
-    this.authService.getUserAuthStatus()
+    this.authService.facebookApiLogin()
       .subscribe(
         resp => {
-          //console.log('Navbar Authentication response: ', resp);
-          if((resp as any).authenticated) {
-            this.userLoggedIn = true;
-            this.router.navigate(['/']);
-
-            this.checkForNotifications();
-          }
+          console.log('App component Authentication response: ', resp);
+          this.router.navigate(['/']);
         },
         error =>  this.errorMessage = <any>error
       );
-
-  }
-
-  checkForNotifications() {
-    console.log("Checking for notifications...");
-
-    this.notificationService.getUnreadNotifications().subscribe(notifications => {
-      console.log("notifications returned: ", notifications);
-      this.notifications = notifications;
-
-      if(notifications.length > 0) {
-        this.hasNotifications = true;
-      }
-
-    });
 
   }
 

@@ -11,7 +11,9 @@ const graph = require('fbgraph');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const passport = require('passport');
+
 const TwitterStrategy = require('passport-twitter').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 const MongoStore = require('connect-mongo')(session);
 
@@ -20,7 +22,6 @@ const api = require('./server/routes/api');
 
 // Get User model so passport knows what a 'User' is
 const User = require('./server/models/user');
-const NotificationChecker = require('./server/notificationChecker');
 
 // Tell passport how to write a user
 passport.serializeUser(function(user, cb) {
@@ -31,6 +32,59 @@ passport.serializeUser(function(user, cb) {
 passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
+
+const conf = {
+  client_id:      '329051680857512',
+  client_secret:  '0aadceb2c7e3dbb463731d5f140395f0',
+  scope:          'email, user_about_me, user_birthday, user_location, publish_actions',
+  access_code: '',
+  profile_id: '',
+  code:           ''
+  // You have to set http://localhost:3000/ as your website
+  // using Settings -> Add platform -> Website
+  , redirect_uri:   'http://localhost:3000/fb-auth'
+};
+
+passport.use(new FacebookStrategy({
+    clientID:      '329051680857512',
+    clientSecret:  '0aadceb2c7e3dbb463731d5f140395f0',
+    callbackURL: "http://localhost:3000/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+
+    conf.profile_id = profile.id;
+
+    //return cb({}, profile);
+
+    User.findOne({ facebookId: profile.id }, function (err, user) {
+      // if there is an error, stop everything and return that
+      // ie an error connecting to the database
+      if (err)
+        return done(err);
+
+      // if the user is found then log them in
+      if (user) {
+        return cb(err, user);
+      }
+      else {
+        // if there is no user, create them
+        let user = new User();
+        user.facebookId = profile.id;
+        user.username = profile.username;
+
+        // save our user into the database
+        user.save(function(err) {
+          if (err)
+            throw err;
+
+          return cb(err, user);
+        });
+      }
+
+    });
+  }
+));
+
 
 passport.use(new TwitterStrategy({
     consumerKey: 'GxwxeStKsYqKjhpzYS7Ag8X25',
@@ -74,7 +128,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Set up a mlab account to use for mongodb. Connect to that db.
-mongoose.connect('mongodb://admin:admin@ds035593.mlab.com:35593/bms'); // Connect to MongoDB database for polling app.
+mongoose.connect('mongodb://fbmadm:fbgm1421@ds153732.mlab.com:53732/fb-group-manager'); // Connect to MongoDB database for polling app.
 
 // Make sure mongod is running! If not, log an error and exit.
 mongoose.connection.on('error', function() {
@@ -93,17 +147,6 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
-const conf = {
-  client_id:      '329051680857512',
-  client_secret:  '0aadceb2c7e3dbb463731d5f140395f0',
-  scope:          'email, user_about_me, user_birthday, user_location, publish_actions',
-  access_code: '',
-  code:           ''
-  // You have to set http://localhost:3000/ as your website
-  // using Settings -> Add platform -> Website
-  , redirect_uri:   'http://localhost:3000/fb-auth'
-};
-
 // initialize the session
 app.use(passport.initialize());
 // start the session
@@ -119,25 +162,41 @@ app.use('/api', api);
 
 const request = require('request');
 
-app.get('/fb-api/groups', function(req, res) {
+app.get('/fb-api/groups/:id/members', function(req, res) {
   graph.setAccessToken(conf.access_code);
 
-  var params = { };
+  var params = { limit: 10000 };
 
-  graph.get("360852310642785/members", params,  function(err, resp) {
+  let groupId = req.params.id;//"360852310642785"
+
+  console.log("ID from params: ", groupId);
+
+  /*
+  graph.get(groupId + "/members", {limit: 100}, function(err, res) {
+    while(res.paging && res.paging.next) {
+      graph.get(res.paging.next, function(err, innerRes) {
+        // page 2
+        console.log("Page 2: ", innerRes);
+      });
+    }
+  });
+  */
+
+  graph.get(groupId + "/members", {limit: 10000},  function(err, resp) {
     console.log(resp); // { picture: "http://profile.ak.fbcdn.net/..." }
     res.json(resp);
   });
+
 });
 
 
-app.get('/test', function(req, res) {
+app.get('/user/groups', function(req, res) {
   // you need permission for most of these fields
-  const userFieldSet = 'id, name, about, email, accounts, link, is_verified, significant_other, relationship_status, website, picture, photos, feed';
+  const userFieldSet = 'id, name, cover, description';
 
   const options = {
     method: 'GET',
-    uri: 'https://graph.facebook.com/v2.9/360852310642785/members',
+    uri: 'https://graph.facebook.com/v2.9/' + conf.profile_id + '/groups',
     qs: {
       access_token: conf.access_code,
       fields: userFieldSet
@@ -204,25 +263,28 @@ app.get('/fb-auth', function(req, res) {
       graph.setAccessToken(facebookRes.access_token);
       conf.access_code = facebookRes.access_token;
       console.log("Access code set to: ", conf.access_code);
+
+      graph.extendAccessToken({
+        "access_token":    conf.access_code,
+        "client_id":      conf.client_id,
+        "client_secret":  conf.client_secret
+      }, function (err, facebookRes) {
+        console.log(facebookRes);
+      });
+
       res.redirect('/home');
     });
   }
 });
 
 
-app.get('/auth/twitter',
-  passport.authenticate('twitter'));
+app.get('/auth/facebook',
+  passport.authenticate('facebook', { scope: ['user_friends', 'manage_pages', 'user_managed_groups'] }));
 
-app.get('/auth/twitter/callback',
-  passport.authenticate('twitter', { failureRedirect: '/login' }),
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-    // Successful authentication, redirect home.
-
-    console.log("Checking for notifications...");
-    // Do notification check
-    NotificationChecker.checkForNotifications(req);
-
-    res.redirect('/dashboard');
+    res.redirect('/fb-auth');
   });
 
 // Catch all other routes and return the index file
