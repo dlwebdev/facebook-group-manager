@@ -16,9 +16,9 @@ export class GroupService {
       .map(res => res.json());
   }
 
-  getGroupMembers(id:string): Observable<Object> {
+  getGroupMembers(id: string): Observable<Object> {
     return this.http.get('/fb-api/groups/' + id + '/members')
-      .map((res: Response) => res.json())
+      .map(res => res.json())
       .catch(this.handleError);
   }
 
@@ -28,9 +28,9 @@ export class GroupService {
   private handleError (error: any) {
     // In a real world app, we might use a remote logging infrastructure
     // We'd also dig deeper into the error to get a better message
-    let errMsg = (error.message) ? error.message :
+    const errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    console.error(errMsg); // log to console instead
+    console.error('Custom Error caught: ', errMsg); // log to console instead
     return Observable.throw(errMsg);
   }
 }

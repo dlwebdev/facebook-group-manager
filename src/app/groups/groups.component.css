@@ -1,0 +1,12 @@
+.list-group-item-heading {
+  padding: 5px;
+  cursor: pointer;
+  margin-left: 15px;
+  color: #3b5998;
+}
+
+.group-title {
+  font-style: italic;
+  font-size: 18px;
+  padding: 10px;
+}

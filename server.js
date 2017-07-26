@@ -196,7 +196,7 @@ app.get('/user/groups', function(req, res) {
 
   const options = {
     method: 'GET',
-    uri: 'https://graph.facebook.com/v2.9/' + conf.profile_id + '/groups',
+    uri: 'https://graph.facebook.com/v2.9/' + conf.profile_id + '/groups?limit=400&offset=0',
     qs: {
       access_token: conf.access_code,
       fields: userFieldSet

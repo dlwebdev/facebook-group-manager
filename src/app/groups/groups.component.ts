@@ -8,8 +8,8 @@ import { GroupService } from '../services/group.service';
   styleUrls: ['./groups.component.css']
 })
 export class GroupsComponent implements OnInit {
-
   groups: any = [];
+  groupMembers: any = [];
   isLoading = false;
 
   constructor( private router: Router, private groupService: GroupService ) { }
@@ -17,14 +17,13 @@ export class GroupsComponent implements OnInit {
   ngOnInit() {
     this.isLoading = true;
 
-    // Retrieve posts from the API
-    const gid = '360852310642785';
-
     // this.groupService.getGroupMembers(gid).subscribe(groups => {
     this.groupService.getAllGroups().subscribe(groups => {
-      this.groups = groups;
+      this.groups = groups.data;
 
-      console.log('Groups', groups);
+      console.log('Groups', this.groups);
+
+      this.isLoading = false;
       /*
       this.paymentService.getPaymentsForCurrentMonth().subscribe(payments => {
         this.billsUnpaid = this.billTools.getUnpaidBillsForMonth(this.bills, payments);
@@ -37,6 +36,19 @@ export class GroupsComponent implements OnInit {
       */
     });
 
+  }
+
+  loadGroup(group: any) {
+    console.log('Loading Group: ', group);
+
+    // this.groupService.getGroupMembers(gid).subscribe(groups => {
+    this.groupService.getGroupMembers(group.id).subscribe(members => {
+      // this.groups = groups.data;
+
+      console.log('Members', members);
+      this.groupMembers = members;
+    });
+    // make api call via service to retrieve what?
   }
 
 }

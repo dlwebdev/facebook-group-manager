@@ -1,7 +1,13 @@
-<p>
-  groups is working!
-</p>
-
+<!--
 <pre>
   {{ groups | json }}
 </pre>
+-->
+
+<div class="group-title">Choose a Group to Manage</div>
+
+<div *ngIf="!isLoading" class="list-group fb-group-list">
+  <div *ngFor="let group of groups" class="list-group-item row" (click)="loadGroup(group)">
+    <h3 class="list-group-item-heading">{{ group.name }}</h3>
+  </div>
+</div>
